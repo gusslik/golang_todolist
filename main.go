@@ -1,8 +1,19 @@
 package main
 
 import (
+	"fmt"
 	"os"
 )
+
+type Command struct {
+	Name        string
+	Description string
+}
+
+var commands = []Command{
+	{"help", "display all commands"},
+	{"add <name> <description>", "add new task with specified name and description"},
+}
 
 func getArgs() []string {
 	return os.Args
@@ -11,14 +22,23 @@ func getArgs() []string {
 func identifyCommand(command string) {
 	switch command {
 	case "help":
-		help()
+		help(commands)
 	default:
 		println("Unknown command. Please write help to display all available commands")
 	}
 }
 
-func help() {
-	// Add a dictionary of commands and their descriptions which is displayed using fmt.Printf and a loop
+func help(commands []Command) {
+	maxLength := 0
+	for _, command := range commands {
+		if len(command.Name) > maxLength {
+			maxLength = len(command.Name)
+		}
+	}
+	fmt.Println("Command List")
+	for _, command := range commands {
+		fmt.Printf("\t%-*s\t%s\n", maxLength, command.Name, command.Description)
+	}
 }
 
 func main() {
