@@ -18,12 +18,12 @@ func getArgs() []string {
 	return os.Args
 }
 
-func identifyCommand(command string) {
-	switch command {
+func identifyCommand(args []string) {
+	switch args[1] {
 	case "help":
 		help(commands)
 	case "add":
-		add()
+		add(args)
 	default:
 		println("Unknown command. Please write help to display all available commands")
 	}
@@ -32,7 +32,7 @@ func identifyCommand(command string) {
 func main() {
 	args := getArgs()
 	if len(args) > 1 {
-		identifyCommand(args[1])
+		identifyCommand(args)
 	} else {
 		println("Unknown command. Please write help to display all available commands")
 	}
