@@ -24,6 +24,8 @@ func identifyCommand(args []string) {
 		help(commands)
 	case "add":
 		add(args)
+	case "complete":
+		complete(args)
 	default:
 		println("Unknown command. Please write help to display all available commands")
 	}
