@@ -12,6 +12,8 @@ type Command struct {
 var commands = []Command{
 	{"help", "display all commands"},
 	{"add <name> <description>", "add new task with specified name and description"},
+	{"complete <task id>", "complete task with specified id"},
+	{"display", "display all created tasks"},
 }
 
 func getArgs() []string {
@@ -26,6 +28,8 @@ func identifyCommand(args []string) {
 		add(args)
 	case "complete":
 		complete(args)
+	case "display":
+		display()
 	default:
 		println("Unknown command. Please write help to display all available commands")
 	}

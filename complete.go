@@ -42,19 +42,23 @@ func complete(args []string) {
 	}
 	defer file.Close()
 
-	buffer := delete(file, id)
+	buffer, isFound := delete(file, id)
+	if isFound {
+		// Truncate the file by recreating it
+		file, err = os.Create("tasks.csv")
+		if err != nil {
+			log.Fatal(err)
+		}
 
-	// Truncate the file by recreating it
-	file, err = os.Create("tasks.csv")
-	if err != nil {
-		log.Fatal(err)
-	}
+		// Write the updated list of tasks to the file
+		writer := csv.NewWriter(file)
+		writer.WriteAll(buffer)
 
-	// Write the updated list of tasks to the file
-	writer := csv.NewWriter(file)
-	writer.WriteAll(buffer)
-
-	if err := writer.Error(); err != nil {
-		log.Fatal(err)
+		if err := writer.Error(); err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println("Task has been completed successfully")
+	} else {
+		fmt.Println("Task with this id couldn't be found")
 	}
 }

@@ -49,7 +49,11 @@ func add(args []string) {
 		log.Fatal(err)
 	}
 
-	count += len(records)
+	count, err = strconv.Atoi(records[len(records)-1][0])
+	if err != nil {
+		log.Fatal(err)
+	}
+	count++
 
 	// Writes the specified data to the database in the format: {uuid, name, description, isFinished}
 	err = writer.Write([]string{strconv.Itoa(count), args[2], args[3], "false"})
@@ -61,4 +65,6 @@ func add(args []string) {
 	if err := writer.Error(); err != nil {
 		log.Fatal(err)
 	}
+
+	fmt.Println("Task has been added successfully")
 }
